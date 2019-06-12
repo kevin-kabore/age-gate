@@ -1,0 +1,21 @@
+#welcome-screen {
+  background-color: #404040;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100vh;
+
+  h1 {
+    color: #fff;
+    font-size: 10rem;
+  }
+
+  p {
+    font-size: 7rem;
+    color: #2bb0d8;
+  }
+}

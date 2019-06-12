@@ -1,0 +1,48 @@
+/**
+ * Global Variables
+ */
+
+/* Breakpoint Screen Sizes */
+$screen-bp-min: 320px; // content shouldn't get below this width
+$screen-bp-sm: 750px;
+$screen-bp-md: 1270px;
+$screen-bp-lg: 1600px; // content shouldn't get above this width
+
+/* Breakpoint Font Root Sizes */
+$text-bp-min: 16px; // fonts stay this size and will not scale under screen-bp-min
+$text-bp-sm: 16px; // fonts will scale up relative to screen-bp-sm
+$text-bp-md: 12px; // fonts will scale up relative to screen-bp-md
+$text-bp-lg: 10px; // fonts will scale up relative to screen-bp-lg then stay there
+
+/* Colors */
+$color-1: #ffffff; // white
+$color-2: #000000; // black
+$color-green: #009845;
+
+$overlay-bg: rgba(0, 0, 0, 0.95); // semi-transparent black
+
+/* Official Social Media Colors */
+$twitter: #00aced;
+$facebook: #3b5998;
+$googleplus: #dd4b39;
+$pinterest: #cb2027;
+$linkedin: #007bb6;
+$youtube: #bb0000;
+$vimeo: #1ab7ea;
+$tumblr: #32506d;
+$instagram: #bc2a8d;
+$flickr: #ff0084;
+$dribbble: #ea4c89;
+$quora: #a82400;
+$foursquare: #0072b1;
+$forrst: #5b9a68;
+$vk: #45668e;
+$wordpress: #21759b;
+$stumbleupon: #eb4823;
+$yahoo: #7b0099;
+$blogger: #fb8f3d;
+$soundcloud: #ff3a00;
+$snapchat: #fffc00;
+
+/* Fonts */
+$font-1: helvetica, arial, sans-serif;

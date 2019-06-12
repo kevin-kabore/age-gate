@@ -1,0 +1,102 @@
+/**
+ * Mixins
+ */
+
+
+/**
+ * Media Queries
+ */
+@mixin bp-small {
+	@media only screen and (min-width: $screen-bp-min) {
+		@content;
+	}
+}
+@mixin bp-medium {
+	@media only screen and (min-width: $screen-bp-sm+1px) {
+		@content;
+	}
+}
+@mixin bp-large {
+	@media only screen and (min-width: $screen-bp-md+1px) {
+		@content;
+	}
+}
+@mixin bp-xlarge {
+	@media only screen and (min-width: $screen-bp-lg+1px) {
+		@content;
+	}
+}
+
+/**
+ * hoverTouch.js implementation
+ */
+@mixin hoverTouch {
+	html:not(.can-touch) &:hover{
+		@content
+	}
+}
+
+
+/**
+ * Convert pixel sizes to REM
+ * @arg  {string}  $pixels  The pixel size to convert to REM
+ * @arg  {string}  $root    The root size to convert by
+ * @return  {string}  the calculated REM size
+ */
+@function rem($pixels, $root: $text-bp-sm) {
+	@if (unitless($pixels)) {
+		$pixels: $pixels * 1px;
+	}
+
+	@if (unitless($root)) {
+		$root: $root * 1px;
+	}
+
+	@return $pixels / $root * 1rem;
+}
+
+/**
+ * Convert pixel sizes to VW
+ * @arg  {string}  $pixels  The pixel size to convert to REM
+ * @arg  {string}  $width   The width to convert by
+ * @return  {string}  the calculated VW size
+ */
+@function vw($pixels, $width: $screen-bp-sm) {
+	@if (unitless($pixels)) {
+		$pixels: $pixels * 1px;
+	}
+
+	@if (unitless($width)) {
+		$width: $width * 1px;
+	}
+
+	@return $pixels / ($width/100) * 1vw;
+}
+
+/**
+ * Custom Scrollbar Styling
+ * @param  {integer} $size       Enter in the increments for size of the scrollbar
+ *                               EX: ".5em"
+ * @param  {string}  $primary    Enter in the color desired for the primary color
+ * @param  {string}  $secondary  Enter in the color desired for the secondary color
+ */
+@mixin scrollbar($size, $primary, $secondary: lighten($primary, 25%)) {
+	&::-webkit-scrollbar {
+		width:  $size;
+		height: $size;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: $primary;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: $secondary;
+	}
+
+	// For Internet Explorer
+	body {
+		scrollbar-face-color: $primary;
+		scrollbar-track-color: $secondary;
+	}
+}

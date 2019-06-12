@@ -1,0 +1,16 @@
+/**
+ * Import SASS
+ * Combining files into one, adds them in sequence
+ */
+
+@import 'variables';
+@import 'mixins';
+@import 'imports';
+@import 'keyframes';
+
+@import 'global';
+@import 'common';
+@import 'welcome';
+
+// modules
+@import 'ageGate';

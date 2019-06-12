@@ -1,0 +1,115 @@
+#age-gate {
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.97);
+  position: absolute;
+  z-index: 1000;
+
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+
+  .logo {
+    width: rem(200, $text-bp-sm);
+    margin: rem(75, $text-bp-sm) 0 rem(20, $text-bp-sm);
+    @include bp-medium {
+      width: rem(200, $text-bp-md);
+      margin: rem(75, $text-bp-md) 0 rem(20, $text-bp-md);
+    }
+    @include bp-large {
+      width: rem(200, $text-bp-lg);
+      margin: rem(75, $text-bp-lg) 0 rem(20, $text-bp-lg);
+    }
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  .title {
+    text-transform: uppercase;
+
+    font-size: rem(50, $text-bp-sm);
+    margin: 0 0 rem(30, $text-bp-sm) 0;
+    @include bp-medium {
+      font-size: rem(50, $text-bp-md);
+      margin: 0 0 rem(30, $text-bp-md) 0;
+    }
+    @include bp-large {
+      font-size: rem(50, $text-bp-lg);
+      margin: 0 0 rem(30, $text-bp-lg) 0;
+    }
+  }
+
+  .form-container {
+    .header {
+      font-size: rem(14, $text-bp-sm);
+      @include bp-medium {
+        font-size: rem(14, $text-bp-md);
+      }
+      @include bp-large {
+        font-size: rem(14, $text-bp-lg);
+      }
+    }
+
+    select {
+      font-size: rem(16, $text-bp-sm);
+      width: rem(150, $text-bp-sm);
+      margin: rem(20, $text-bp-sm) rem(5, $text-bp-sm);
+      @include bp-medium {
+        font-size: rem(16, $text-bp-md);
+        width: rem(150, $text-bp-md);
+        margin: rem(20, $text-bp-md) rem(5, $text-bp-md);
+      }
+      @include bp-large {
+        font-size: rem(16, $text-bp-lg);
+        width: rem(150, $text-bp-lg);
+        margin: rem(20, $text-bp-lg) rem(5, $text-bp-lg);
+      }
+    }
+
+    input {
+      border: none;
+      display: block;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin: auto;
+      color: #fff;
+      background-color: $color-green;
+
+      font-size: rem(18, $text-bp-sm);
+      padding: rem(7, $text-bp-sm) rem(50, $text-bp-sm);
+      border-radius: rem(10, $text-bp-sm);
+      @include bp-medium {
+        font-size: rem(18, $text-bp-md);
+        padding: rem(7, $text-bp-md) rem(50, $text-bp-md);
+        border-radius: rem(10, $text-bp-md);
+      }
+      @include bp-large {
+        font-size: rem(18, $text-bp-lg);
+        padding: rem(7, $text-bp-lg) rem(50, $text-bp-lg);
+        border-radius: rem(10, $text-bp-lg);
+      }
+    }
+
+    .footer {
+      color: #19532f;
+
+      font-size: rem(14, $text-bp-sm);
+      margin: rem(30, $text-bp-sm) 0;
+      @include bp-medium {
+        font-size: rem(14, $text-bp-md);
+        margin: rem(30, $text-bp-md) 0;
+      }
+      @include bp-large {
+        font-size: rem(14, $text-bp-lg);
+        margin: rem(30, $text-bp-lg) 0;
+      }
+    }
+  }
+}
