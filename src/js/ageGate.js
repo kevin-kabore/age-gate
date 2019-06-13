@@ -32,20 +32,21 @@
    * [init() Public method to initialize ageGate module with parameters]
    * @param  {[number]} ageRequired [RequiredAge for validation]
    */
-  function init(ageRequired) {
+  function init(ageRequired = 21) {
+    deleteCookie(cookieName);
     console.log('[ageGate]: init with minimum age: ' + ageRequired);
-    ageGateView = document.getElementById('age-gate');
-
-    userAgeCookie = getCookie(cookieName);
-    console.log(userAgeCookie);
-
-    validateCookieAndDisplay(userAgeCookie);
 
     ageRequired = ageRequired;
-    ageGateFormHolder = document.getElementById('age-gate-form-holder');
-
     d = new Date();
     currentYear = d.getFullYear();
+
+    ageGateView = document.getElementById('age-gate');
+    ageGateFormHolder = document.getElementById('age-gate-form-holder');
+
+    userAgeCookie = getCookie(cookieName);
+    if (userAgeCookie) {
+      validateCookieAndDisplay(userAgeCookie);
+    }
 
     setForm(ageRequired);
   }
@@ -68,7 +69,7 @@
     yearSelect.name = 'year';
     yearSelect.className = 'year';
 
-    submitBtn.type = 'submit';
+    submitBtn.type = 'button';
     submitBtn.value = 'Enter';
 
     fragment.appendChild(form);
@@ -98,28 +99,34 @@
       yearSelect.appendChild(yearOption);
     }
 
-    setSubmitListener(form, ageRequired);
+    setSubmitListener(submitBtn, ageRequired);
 
     ageGateFormHolder.appendChild(fragment);
   };
 
   /**
    * [setSubmitListener adds Listener and fires which fires isAgeValid method with form data]
-   * @param {[HTMLElement]} form [form HTML element]
+   * @param {[HTMLElement]} submitBtn [input[type="button"] HTML element]
    */
-  const setSubmitListener = (form, ageRequired) => {
-    form.addEventListener('submit', e => {
+  const setSubmitListener = (submitBtn, ageRequired) => {
+    submitBtn.addEventListener('click', e => {
       e.preventDefault();
 
-      let month = e.target.querySelector('select[name="month"]');
-      let year = e.target.querySelector('select[name="year"]');
+      console.log('click');
+
+      let month = document.querySelector('#age-gate-form select[name="month"]');
+      let year = document.querySelector('#age-gate-form select[name="year"]');
       let monthInt = parseInt(month.value);
       let yearInt = parseInt(year.value);
+
+      console.log(monthInt);
+      console.log(yearInt);
 
       let boolean = isAgeValid(ageRequired, monthInt, yearInt);
       setIsOfAgeCookie(boolean);
 
       userAgeCookie = getCookie(cookieName);
+      validateCookieAndDisplay(userAgeCookie);
     });
   };
 
@@ -155,7 +162,6 @@
    * @return {[string]}  [found cookie's value if cookie found]
    */
   const getCookie = cookieString => {
-    console.log(cookieString);
     let cookies = `; ${document.cookie}`;
     let cookiesArray = cookies.split('; ');
     let cookieVal = null;
@@ -165,8 +171,6 @@
         let [key, value] = c.split('=');
 
         if (key === cookieString) {
-          console.log(cookieString);
-          console.log(key);
           cookieVal = value;
         }
       }
@@ -175,23 +179,38 @@
     return cookieVal;
   };
 
+  /**
+   * [validateCookieAndDisplay validates cookie and hides ageGate]
+   * @param  {[string]} cookieVal [cookieValue]
+   */
   const validateCookieAndDisplay = cookieVal => {
     if (cookieVal && cookieVal === 'true') {
       ageGateView.classList.add('hide');
+    } else if (cookieVal === 'false') {
+      document.querySelector('#age-gate div.footer').innerHTML =
+        'I AM NOT OF LEGAL DRINKING AGE';
     }
   };
 
+  /**
+   * [deleteCookie deletes cookie of key cookieName]
+   * @param  {[string]} cookieName [description]
+   */
+  const deleteCookie = cookieName => {
+    document.cookie = `${cookieName}= ; expires Thu, 01 Jan 1970 00:00:00 GMT`;
+  };
+
   // public methods and properties
-  // (site.ageGate = {
-  //   init: init
-  // });
+  site.ageGate = {
+    init: init
+  };
 
   /**
    * self init on DOM loaded, with optional ageRequirement
    */
   (() => {
     window.addEventListener('DOMContentLoaded', () => {
-      init(21);
+      init();
     });
   })();
 })((window.site = window.site || {}));

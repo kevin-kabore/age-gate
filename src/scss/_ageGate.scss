@@ -99,20 +99,19 @@
         border-radius: rem(10, $text-bp-lg);
       }
     }
+  }
+  .footer {
+    color: red;
 
-    .footer {
-      color: #19532f;
-
-      font-size: rem(14, $text-bp-sm);
-      margin: rem(30, $text-bp-sm) 0;
-      @include bp-medium {
-        font-size: rem(14, $text-bp-md);
-        margin: rem(30, $text-bp-md) 0;
-      }
-      @include bp-large {
-        font-size: rem(14, $text-bp-lg);
-        margin: rem(30, $text-bp-lg) 0;
-      }
+    font-size: rem(14, $text-bp-sm);
+    margin: rem(30, $text-bp-sm) 0;
+    @include bp-medium {
+      font-size: rem(14, $text-bp-md);
+      margin: rem(30, $text-bp-md) 0;
+    }
+    @include bp-large {
+      font-size: rem(14, $text-bp-lg);
+      margin: rem(30, $text-bp-lg) 0;
     }
   }
 }
