@@ -76,7 +76,7 @@
       }
     }
 
-    input {
+    input[type='button'] {
       border: none;
       display: block;
       text-transform: uppercase;
@@ -97,6 +97,27 @@
         font-size: rem(18, $text-bp-lg);
         padding: rem(7, $text-bp-lg) rem(50, $text-bp-lg);
         border-radius: rem(10, $text-bp-lg);
+      }
+    }
+    input[type='checkbox'] {
+      display: inline-block;
+
+      margin: 0 rem(10px, $text-bp-sm);
+      @include bp-medium {
+        margin: 0 rem(10px, $text-bp-md);
+      }
+      @include bp-large {
+        margin: 0 rem(10px, $text-bp-lg);
+      }
+    }
+
+    label {
+      font-size: rem(14, $text-bp-sm);
+      @include bp-medium {
+        font-size: rem(14, $text-bp-md);
+      }
+      @include bp-large {
+        font-size: rem(14, $text-bp-lg);
       }
     }
   }

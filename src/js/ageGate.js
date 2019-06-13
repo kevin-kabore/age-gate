@@ -33,7 +33,10 @@
    * @param  {[number]} ageRequired [RequiredAge for validation]
    */
   function init(ageRequired = 21) {
-    deleteCookie(cookieName);
+    /**
+     * Uncomment deleteCookie() for debugging
+     */
+    // deleteCookie(cookieName);
     console.log('[ageGate]: init with minimum age: ' + ageRequired);
 
     ageRequired = ageRequired;
@@ -59,7 +62,9 @@
       form = document.createElement('form'),
       monthSelect = document.createElement('select'),
       yearSelect = document.createElement('select'),
-      submitBtn = document.createElement('input');
+      submitBtn = document.createElement('input'),
+      checkBox = document.createElement('input'),
+      label = document.createElement('label');
 
     form.id = 'age-gate-form';
 
@@ -72,9 +77,17 @@
     submitBtn.type = 'button';
     submitBtn.value = 'Enter';
 
+    checkBox.type = 'checkbox';
+    checkBox.checked = false;
+    checkBox.name = 'remember';
+    label.for = 'remember';
+    label.innerHTML = 'Remember Me';
+
     fragment.appendChild(form);
     form.appendChild(monthSelect);
     form.appendChild(yearSelect);
+    form.appendChild(checkBox);
+    form.appendChild(label);
     form.appendChild(submitBtn);
 
     /**
@@ -112,21 +125,24 @@
     submitBtn.addEventListener('click', e => {
       e.preventDefault();
 
-      console.log('click');
-
       let month = document.querySelector('#age-gate-form select[name="month"]');
       let year = document.querySelector('#age-gate-form select[name="year"]');
+      let checkBox = document.querySelector(
+        '#age-gate-form input[type="checkBox"]'
+      );
+
       let monthInt = parseInt(month.value);
       let yearInt = parseInt(year.value);
 
-      console.log(monthInt);
-      console.log(yearInt);
+      let isUserLegal = isAgeValid(ageRequired, monthInt, yearInt);
 
-      let boolean = isAgeValid(ageRequired, monthInt, yearInt);
-      setIsOfAgeCookie(boolean);
-
-      userAgeCookie = getCookie(cookieName);
-      validateCookieAndDisplay(userAgeCookie);
+      if (checkBox.checked) {
+        setIsOfAgeCookie(isUserLegal);
+        userAgeCookie = getCookie(cookieName);
+        validateCookieAndDisplay(userAgeCookie);
+      } else {
+        validateAgeAndDisplay(isUserLegal);
+      }
     });
   };
 
@@ -187,6 +203,19 @@
     if (cookieVal && cookieVal === 'true') {
       ageGateView.classList.add('hide');
     } else if (cookieVal === 'false') {
+      document.querySelector('#age-gate div.footer').innerHTML =
+        'I AM NOT OF LEGAL DRINKING AGE';
+    }
+  };
+
+  /**
+   * [validateAgeAndDisplay accepts boolean and hides content/displays error]
+   * @param  {Boolean} isUserLegal [description]
+   */
+  const validateAgeAndDisplay = isUserLegal => {
+    if (isUserLegal) {
+      ageGateView.classList.add('hide');
+    } else {
       document.querySelector('#age-gate div.footer').innerHTML =
         'I AM NOT OF LEGAL DRINKING AGE';
     }
