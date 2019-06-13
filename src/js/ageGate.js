@@ -30,6 +30,9 @@
 
   function init(ageRequired) {
     console.log('[ageGate]: init');
+
+    getCookie('is_of_age');
+
     ageRequired = ageRequired;
     ageGateHolder = document.getElementById('age-gate-holder');
 
@@ -102,24 +105,56 @@
 
       let month = e.target.querySelector('select[name="month"]');
       let year = e.target.querySelector('select[name="year"]');
-      let monthInt = parseInt(month);
-      let yearInt = parseInt(year);
+      let monthInt = parseInt(month.value);
+      let yearInt = parseInt(year.value);
 
-      isAgeValid(ageRequired, monthInt, yearInt);
+      setAgeCookie(isAgeValid(ageRequired, monthInt, yearInt));
     });
   };
 
-  let isAgeValid = (ageRequired, month, year) => {
-    console.log(`Age required: ${ageRequired}`);
-    console.log(`Month: ${month}`);
-    console.log(`Year: ${year}`);
-
+  /**
+   * [isAgeValid checks if age is >== legal age]
+   * @param  {[number]}  ageRequired [minimum age required in years]
+   * @param  {[number]}  month       [month 0-11]
+   * @param  {[number]}  year
+   * @return {Boolean}             [true if > ageRequired : false]
+   */
+  const isAgeValid = (ageRequired, month, year) => {
     let currentDate = new Date(),
       userLegalDate = new Date(year + ageRequired, month);
 
     // check if user's legal date is before or equal to today
     return userLegalDate <= currentDate ? true : false;
     // return userLegalDate <= currentDate;
+  };
+
+  /**
+   * [setAgeCookie sets is_of_age cookie]
+   * @param {Boolean} isAgeValid [Boolean to determine cookie value]
+   */
+  const setAgeCookie = isAgeValid => {
+    return isAgeValid
+      ? (document.cookie = 'is_of_age=true')
+      : (document.cookie = 'is_of_age=false');
+  };
+
+  /**
+   * [getCookie description]
+   * @param  {[string]} cookieString [cookie's key]
+   * @return {[string]}  [found cookie's value if cookie found]
+   */
+  const getCookie = cookieString => {
+    let cookies = `; ${document.cookie}`;
+    let cookiesArray = cookies.split('; ');
+
+    cookiesArray.forEach(c => {
+      if (c !== '') {
+        let [key, value] = c.split('=');
+        if (key === cookieString) {
+          return value;
+        }
+      }
+    });
   };
 
   // public methods and properties
