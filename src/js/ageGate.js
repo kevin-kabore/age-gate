@@ -5,6 +5,7 @@
    * Private Variables
    */
   const OLDEST_PERSON_ALIVE = 116,
+    cookieName = 'is_of_age',
     months = [
       'January',
       'February',
@@ -18,15 +19,9 @@
       'October',
       'November',
       'December'
-    ],
-    cookieName = 'is_of_age';
+    ];
 
-  let ageRequired,
-    ageGateView,
-    ageGateFormHolder,
-    d,
-    currentYear,
-    userAgeCookie;
+  let ageRequired, ageGateView, ageGateFormHolder, userAgeCookie;
 
   /**
    * [init() Public method to initialize ageGate module with parameters]
@@ -37,11 +32,9 @@
      * Uncomment deleteCookie() for debugging
      */
     // deleteCookie(cookieName);
-    console.log('[ageGate]: init with minimum age: ' + ageRequired);
+    // console.log('[ageGate]: init() with minimum age: ' + ageRequired);
 
     ageRequired = ageRequired;
-    d = new Date();
-    currentYear = d.getFullYear();
 
     ageGateView = document.getElementById('age-gate');
     ageGateFormHolder = document.getElementById('age-gate-form-holder');
@@ -58,6 +51,7 @@
    * [setForm creates and appends form to #age-gate-holder]
    */
   const setForm = ageRequired => {
+
     let fragment = document.createDocumentFragment(),
       form = document.createElement('form'),
       monthSelect = document.createElement('select'),
@@ -102,8 +96,11 @@
     });
 
     /**
-     * Iterate from currentYear down to max year + 1
+     * Iterate from currentYear down to max year
      */
+    let d = new Date();
+    let currentYear = d.getFullYear();
+
     for (let i = currentYear; i >= currentYear - OLDEST_PERSON_ALIVE; i--) {
       let yearOption = document.createElement('option');
 
@@ -117,10 +114,12 @@
     ageGateFormHolder.appendChild(fragment);
   };
 
+
   /**
    * [setSubmitListener adds Listener and fires which fires isAgeValid method with form data]
    * @param {[HTMLElement]} submitBtn [input[type="button"] HTML element]
    */
+
   const setSubmitListener = (submitBtn, ageRequired) => {
     submitBtn.addEventListener('click', e => {
       e.preventDefault();
@@ -146,21 +145,24 @@
     });
   };
 
+
   /**
-   * [isAgeValid checks if age is >== legal age]
+   * [isAgeValid checks if user legal birthday is before today]
    * @param  {[number]}  ageRequired [minimum age required in years]
    * @param  {[number]}  month       [month 0-11]
    * @param  {[number]}  year
-   * @return {Boolean}             [true if > ageRequired : false]
+   * @param  {[number]}  day         [day 1-31: optional, default = 1]
+   * @return {Boolean}               [true if > ageRequired : false]
    */
-  const isAgeValid = (ageRequired, month, year) => {
+  const isAgeValid = (ageRequired, month, year, day = 1) => {
     let currentDate = new Date(),
-      userLegalDate = new Date(year + ageRequired, month);
+      userLegalDate = new Date(year + ageRequired, month, day);
 
     // check if user's legal date is before or equal to today
     return userLegalDate <= currentDate ? true : false;
     // return userLegalDate <= currentDate;
   };
+
 
   /**
    * [setIsOfAgeCookie sets is_of_age cookie]
@@ -171,6 +173,7 @@
       ? (document.cookie = 'is_of_age=true')
       : (document.cookie = 'is_of_age=false');
   };
+
 
   /**
    * [getCookie description]
@@ -195,6 +198,7 @@
     return cookieVal;
   };
 
+
   /**
    * [validateCookieAndDisplay validates cookie and hides ageGate]
    * @param  {[string]} cookieVal [cookieValue]
@@ -208,6 +212,7 @@
     }
   };
 
+
   /**
    * [validateAgeAndDisplay accepts boolean and hides content/displays error]
    * @param  {Boolean} isUserLegal [description]
@@ -220,6 +225,7 @@
         'I AM NOT OF LEGAL DRINKING AGE';
     }
   };
+
 
   /**
    * [deleteCookie deletes cookie of key cookieName]
@@ -239,6 +245,7 @@
    */
   (() => {
     window.addEventListener('DOMContentLoaded', () => {
+      // init(18);
       init();
     });
   })();
