@@ -18,23 +18,31 @@
       'October',
       'November',
       'December'
-    ];
+    ],
+    cookieName = 'is_of_age';
 
-  let ageRequired, ageGateHolder, d, currentYear;
+  let ageRequired,
+    ageGateView,
+    ageGateFormHolder,
+    d,
+    currentYear,
+    userAgeCookie;
 
   /**
-   * [Public method to initialize ageGate module with parameters]
-   * @param  {[string]} formId   [html form to append html inputs to]
-   * @param  {[number]} legalAge [age for validation]
+   * [init() Public method to initialize ageGate module with parameters]
+   * @param  {[number]} ageRequired [RequiredAge for validation]
    */
-
   function init(ageRequired) {
-    console.log('[ageGate]: init');
+    console.log('[ageGate]: init with minimum age: ' + ageRequired);
+    ageGateView = document.getElementById('age-gate');
 
-    getCookie('is_of_age');
+    userAgeCookie = getCookie(cookieName);
+    console.log(userAgeCookie);
+
+    validateCookieAndDisplay(userAgeCookie);
 
     ageRequired = ageRequired;
-    ageGateHolder = document.getElementById('age-gate-holder');
+    ageGateFormHolder = document.getElementById('age-gate-form-holder');
 
     d = new Date();
     currentYear = d.getFullYear();
@@ -92,12 +100,12 @@
 
     setSubmitListener(form, ageRequired);
 
-    ageGateHolder.appendChild(fragment);
+    ageGateFormHolder.appendChild(fragment);
   };
 
   /**
-   * [setSubmitListener adds Listener and fires isAgeValid method with form data]
-   * @param {[HTMLElement]} form [description]
+   * [setSubmitListener adds Listener and fires which fires isAgeValid method with form data]
+   * @param {[HTMLElement]} form [form HTML element]
    */
   const setSubmitListener = (form, ageRequired) => {
     form.addEventListener('submit', e => {
@@ -108,7 +116,10 @@
       let monthInt = parseInt(month.value);
       let yearInt = parseInt(year.value);
 
-      setAgeCookie(isAgeValid(ageRequired, monthInt, yearInt));
+      let boolean = isAgeValid(ageRequired, monthInt, yearInt);
+      setIsOfAgeCookie(boolean);
+
+      userAgeCookie = getCookie(cookieName);
     });
   };
 
@@ -129,10 +140,10 @@
   };
 
   /**
-   * [setAgeCookie sets is_of_age cookie]
+   * [setIsOfAgeCookie sets is_of_age cookie]
    * @param {Boolean} isAgeValid [Boolean to determine cookie value]
    */
-  const setAgeCookie = isAgeValid => {
+  const setIsOfAgeCookie = isAgeValid => {
     return isAgeValid
       ? (document.cookie = 'is_of_age=true')
       : (document.cookie = 'is_of_age=false');
@@ -144,17 +155,30 @@
    * @return {[string]}  [found cookie's value if cookie found]
    */
   const getCookie = cookieString => {
+    console.log(cookieString);
     let cookies = `; ${document.cookie}`;
     let cookiesArray = cookies.split('; ');
+    let cookieVal = null;
 
     cookiesArray.forEach(c => {
       if (c !== '') {
         let [key, value] = c.split('=');
+
         if (key === cookieString) {
-          return value;
+          console.log(cookieString);
+          console.log(key);
+          cookieVal = value;
         }
       }
     });
+
+    return cookieVal;
+  };
+
+  const validateCookieAndDisplay = cookieVal => {
+    if (cookieVal && cookieVal === 'true') {
+      ageGateView.classList.add('hide');
+    }
   };
 
   // public methods and properties
