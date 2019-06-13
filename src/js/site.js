@@ -1,6 +1,5 @@
 (function(site, undefined) {
   'use strict';
-  var ageGate = site.ageGate;
   /*
       // Cache Modules
       var trace = site.utilities.trace,
@@ -15,9 +14,7 @@
   */
 
   // public methods and properties
-  site.init = function() {
-    ageGate.init('age-gate-form');
-  };
+  site.init = function() {};
 
   /*
       // private methods
@@ -27,7 +24,7 @@
   */
 
   // fire on DOM ready
-  $(function() {
-    site.init();
-  });
+  // $(function() {
+  //   site.init();
+  // });
 })((window.site = window.site || {}));
